@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15537F322B4460CA0090B66E /* DetailProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15537F312B4460CA0090B66E /* DetailProfile.swift */; };
+		15537F342B44610F0090B66E /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15537F332B44610F0090B66E /* CircleImage.swift */; };
 		158B48302B1CB8E500A39FD7 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158B482F2B1CB8E500A39FD7 /* ImageDownloader.swift */; };
 		158B48322B1CBB0E00A39FD7 /* GameRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158B48312B1CBB0E00A39FD7 /* GameRow.swift */; };
 		158B48342B1CDB4200A39FD7 /* GameList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158B48332B1CDB4200A39FD7 /* GameList.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		15537F312B4460CA0090B66E /* DetailProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProfile.swift; sourceTree = "<group>"; };
+		15537F332B44610F0090B66E /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		158B482F2B1CB8E500A39FD7 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		158B48312B1CBB0E00A39FD7 /* GameRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRow.swift; sourceTree = "<group>"; };
 		158B48332B1CDB4200A39FD7 /* GameList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameList.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 				158B48312B1CBB0E00A39FD7 /* GameRow.swift */,
 				158B48332B1CDB4200A39FD7 /* GameList.swift */,
 				158B48352B1CE04D00A39FD7 /* GameDetailView.swift */,
+				15537F312B4460CA0090B66E /* DetailProfile.swift */,
+				15537F332B44610F0090B66E /* CircleImage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -186,9 +192,11 @@
 				15E4E8672ACB0FE8007BD793 /* SplashScreenView.swift in Sources */,
 				15E4E8572ACB0860007BD793 /* GameListApp.swift in Sources */,
 				15E4E8692ACB1291007BD793 /* HomeScreenView.swift in Sources */,
+				15537F322B4460CA0090B66E /* DetailProfile.swift in Sources */,
 				158B48302B1CB8E500A39FD7 /* ImageDownloader.swift in Sources */,
 				15D0AD6D2AD2B98D0057B143 /* GameModelData.swift in Sources */,
 				158B48362B1CE04D00A39FD7 /* GameDetailView.swift in Sources */,
+				15537F342B44610F0090B66E /* CircleImage.swift in Sources */,
 				158B48322B1CBB0E00A39FD7 /* GameRow.swift in Sources */,
 				158B48342B1CDB4200A39FD7 /* GameList.swift in Sources */,
 			);
