@@ -27,8 +27,47 @@ class NetworkService {
         
         let decoder = JSONDecoder()
         let result = try decoder.decode(GameResponses.self, from: data) //this should be the response
-        print("ini adalah isi result: \(result)")
         return gameMapper(input: result.results)
+    }
+    
+    func getDetailGameInfo(_ id:Int) async throws -> DetailGame{
+        //TODO: getting the detail game information from existing API
+        var components = URLComponents(string: "https://api.rawg.io/api/games/\(id)?")!
+        components.queryItems = [
+            URLQueryItem(name: "key", value: apiKey)
+        ]
+        
+        let request = URLRequest(url: components.url!)
+        let (data, response) = try await URLSession.shared.data(for:request)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error: Can't fetching data")
+        }
+        
+        let decoder = JSONDecoder()
+        let result = try decoder.decode(DetailResponse.self, from: data) //this should be the response
+        let formattedDescription = convertHTMLToAttributedString(htmlText: result.description)
+        
+        return DetailGame(description: formattedDescription!, originalName: result.originalName, playtime: result.playtime)
+        
+    }
+    
+    private func convertHTMLToAttributedString(htmlText: String) -> String? {
+        do {
+            let data = htmlText.data(using: .utf8)
+            if let data = data {
+                let attributedString = try NSAttributedString(data: data,
+                                                              options: [
+                                                                .documentType: NSAttributedString.DocumentType.html,
+                                                                .characterEncoding: String.Encoding.utf8.rawValue
+                                                              ],
+                                                              documentAttributes:nil)
+                return attributedString.string
+            }
+        } catch {
+            print("Error converting HTML to NSAttributedString: \(error)")
+        }
+        return nil
     }
 }
 

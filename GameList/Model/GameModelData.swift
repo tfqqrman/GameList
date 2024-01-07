@@ -12,6 +12,22 @@ enum DownloadState {
     case new, downloaded, failed
 }
 
+class DetailGame:Identifiable{
+    let description:String
+    let originalName:String
+    let playTime:Int
+    //TODO: ADD PUBLISHER
+    
+    init(description:String,
+         originalName:String,
+         playtime:Int
+         ) {
+        self.description = description
+        self.originalName = originalName
+        self.playTime = playtime
+    }
+}
+
 class Game:Identifiable{
     let id:Int
     let name:String
@@ -73,3 +89,25 @@ struct GameResult:Codable{
         rating = try container.decode(Double.self, forKey: .rating)
     }
 }
+
+struct DetailResponse: Codable{
+    let description:String
+    let originalName:String
+    let playtime:Int
+    
+    enum CodingKeys: String, CodingKey {
+        case description
+        case originalName = "name_original"
+        case playtime
+    }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        description = try container.decode(String.self, forKey: .description)
+        originalName = try container.decode(String.self, forKey: .originalName)
+        playtime = try container.decode(Int.self, forKey: .playtime)
+        
+    }
+    
+}
+
