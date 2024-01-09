@@ -46,9 +46,17 @@ class NetworkService {
         
         let decoder = JSONDecoder()
         let result = try decoder.decode(DetailResponse.self, from: data) //this should be the response
-        let formattedDescription = convertHTMLToAttributedString(htmlText: result.description)
         
-        return DetailGame(description: formattedDescription!, originalName: result.originalName, playtime: result.playtime)
+        let formattedDescription = convertHTMLToAttributedString(htmlText: result.description)
+        let pub = result.publishers.map{ x in
+            return x.name
+        }
+        print("result detail: \(pub.first ?? "")")
+        
+        return DetailGame(description: formattedDescription!,
+                          originalName: result.originalName,
+                          playtime: result.playtime,
+                          publisherName: pub.first ?? "[FAILED TO LOAD]")
         
     }
     
