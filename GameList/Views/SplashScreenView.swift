@@ -16,7 +16,7 @@ struct SplashScreenView: View {
             VStack{
                 VStack{
                     //this should be image but rn I will fill it with the text instead
-                    Text("this is logo")
+                    Image("logo-splash")
                         .padding(4.0)
                     Text("GameList")
                         .font(Font.custom("Marker Felt", size: 38))
