@@ -9,11 +9,10 @@ import SwiftUI
 
 struct GameList: View {
     @State var game: [Game] = []
-    //TODO: DOWNLOAD JSON DATA AND PASS IT HERE
     var body: some View {
         List($game){game in
             NavigationLink{
-                GameDetailView()
+                GameDetailView(game: game)
             } label: {
                 GameRow(game: game)
             }

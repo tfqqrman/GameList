@@ -12,6 +12,25 @@ enum DownloadState {
     case new, downloaded, failed
 }
 
+class DetailGame:Identifiable{
+    let description:String
+    let originalName:String
+    let playTime:Int
+    let publisherName:String
+    //TODO: ADD PUBLISHER
+    
+    init(description:String,
+         originalName:String,
+         playtime:Int,
+         publisherName:String
+         ) {
+        self.description = description
+        self.originalName = originalName
+        self.playTime = playtime
+        self.publisherName = publisherName
+    }
+}
+
 class Game:Identifiable{
     let id:Int
     let name:String
@@ -73,3 +92,53 @@ struct GameResult:Codable{
         rating = try container.decode(Double.self, forKey: .rating)
     }
 }
+
+struct DetailResponse: Codable{
+    let description:String
+    let originalName:String
+    let playtime:Int
+    let publishers:[PublisherResult]
+    
+    enum CodingKeys: String, CodingKey {
+        case description
+        case originalName = "name_original"
+        case playtime
+        case publishers
+    }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        description = try container.decode(String.self, forKey: .description)
+        originalName = try container.decode(String.self, forKey: .originalName)
+        playtime = try container.decode(Int.self, forKey: .playtime)
+        publishers = try container.decode([PublisherResult].self, forKey: .publishers)
+    }
+    
+}
+
+struct PublisherResult: Codable{
+    let id: Int
+    let name: String
+    let slug: String
+    let gamesCount: Int
+    let imageBackground: URL
+    
+    enum CodingKeys: String, CodingKey{
+        case id
+        case name
+        case slug
+        case gamesCount = "games_count"
+        case imageBackground = "image_background"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        slug = try container.decode(String.self, forKey: .slug)
+        gamesCount = try container.decode(Int.self, forKey: .gamesCount)
+        imageBackground = try container.decode(URL.self, forKey: .imageBackground)
+    }
+}
+
