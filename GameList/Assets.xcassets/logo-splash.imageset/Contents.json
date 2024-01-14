@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "fried-egg.png",
+      "filename" : "mobile-game-4.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "fried-egg@2x.png",
+      "filename" : "mobile-game-3.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "fried-egg@3x.png",
+      "filename" : "mobile-game-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

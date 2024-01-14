@@ -40,17 +40,31 @@ struct GameDetailView: View {
             ScrollView{
                 VStack(alignment: .leading, spacing: 0){
                     if let det = detailGame{
-                        Text("Original Name: \(det.originalName)")
-                            .font(.title3.bold())
+                        Text("Original Name:")
+                            .font(.system(size: 13, weight: .ultraLight))
                             .padding(.top, 5)
-                        Text("Publisher: \(det.publisherName)")
+                        Text(det.originalName)
+                            .lineLimit(nil)
                             .font(.title3.bold())
+                        Text("Publisher:")
+                            .font(.system(size: 13, weight: .ultraLight))
                             .padding(.top, 5)
-                        Text("Play Time: \(det.playTime) hour(s)")
+                        Text(det.publisherName)
+                            .lineLimit(nil)
                             .font(.title3.bold())
+                        Text("Play Time:")
+                            .font(.system(size: 13, weight: .ultraLight))
                             .padding(.top, 5)
+                        HStack(alignment: .bottom, spacing: 2){
+                            Text(String(det.playTime))
+                                .lineLimit(nil)
+                                .font(.title3.bold())
+                            Text("hour(s)")
+                                .font(.system(size: 13, weight: .light))
+                        }
+                        
                         Text("Description:")
-                            .font(.title3.bold())
+                            .font(.system(size: 13, weight: .ultraLight))
                             .padding(.top, 5)
                         Text(det.description)
                             .lineLimit(nil)
