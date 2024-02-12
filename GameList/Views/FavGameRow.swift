@@ -1,14 +1,14 @@
 //
-//  GameRow.swift
+//  FavGameRow.swift
 //  GameList
 //
-//  Created by Taufiq Qurohman on 03/12/23.
+//  Created by Taufiq Qurohman on 11/02/24.
 //
 
 import SwiftUI
 
-struct GameRow: View {
-    @Binding var game:Game
+struct FavGameRow: View {
+    @Binding var game:FavModel
     @State private var isLoading: Bool = true
     @State private var loadedImage:UIImage?
     
@@ -35,17 +35,17 @@ struct GameRow: View {
             }
             VStack(alignment: .leading){
                 VStack(alignment: .leading){
-                    Text(game.name)
+                    Text(game.name!)
                         .bold()
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                     
-                    Text("Release Date: \(getJustDate(date:game.released))")
+                    Text("Release Date: \(getJustDate(date:game.released!))")
                         .font(.footnote)
                         .font(.system(size: 1))
                         .lineLimit(3)
                         .multilineTextAlignment(.leading)
-                    Text("Rating:\(game.rating.cleanValue)")
+                    Text("Rating:\(game.rating!.cleanValue)")
                         .font(.footnote)
                         .font(.system(size: 1))
                         .lineLimit(3)
@@ -66,23 +66,14 @@ struct GameRow: View {
     }
     
     
-    func getImage(game:Game) async{
+    func getImage(game:FavModel) async{
         let imageDownloader = ImageDownloader()
         var imageResult:UIImage
         do{
-            imageResult = try await imageDownloader.downloadImage(url: game.background_image)
-            game.img = imageResult
-            game.state = .downloaded
+            imageResult = try await imageDownloader.downloadImage(url: game.background_image ?? URL(string: "")!)
             loadedImage = imageResult
         } catch {
-            game.state = .failed
             fatalError("Error: failed to download image")
         }
-    }
-}
-
-extension Double {
-    var cleanValue: String {
-        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
 }

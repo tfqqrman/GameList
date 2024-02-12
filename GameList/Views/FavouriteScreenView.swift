@@ -1,19 +1,25 @@
 //
-//  HomeScreenView.swift
+//  FavouriteScreenView.swift
 //  GameList
 //
-//  Created by Taufiq Qurohman on 02/10/23.
+//  Created by Taufiq Qurohman on 04/02/24.
 //
 
 import SwiftUI
 
-struct HomeScreenView: View {
-    @State private var game: [Game] = []
+struct FavouriteScreenView: View {
+    private let favProvider: FavProvider = {return FavProvider()}()
+    @State var isEmpty: Bool = true
+    @State var gameFav: [FavModel] = []
+    @State var game: [Game] = []
+    
     var body: some View {
-        TabView{
-            NavigationView{
-                VStack{
-                    GameList(isHomeScreen: true)
+        NavigationView{
+            VStack{
+                if(isEmpty){
+                    Text("You have not choose your favourite game yet")
+                } else {
+                    GameList(isHomeScreen: false)
                         .padding(.top, 50.0)
                         .overlay(
                             ZStack{
@@ -21,37 +27,28 @@ struct HomeScreenView: View {
                                     .background(.ultraThinMaterial)
                                     .blur(radius: 5)
                                 HStack {
-                                    Text("GAME LIST")
+                                    Text("Your Favourite")
                                         .font(.title.bold())
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(20)
                                 }
+                                
                             }
                                 .frame(height: 49)
                                 .frame(maxHeight: .infinity, alignment: .top)
                     )
                 }
-                .padding(.top, 5)
+                
             }
-            .tabItem{
-                Label("Lib", systemImage: "books.vertical")
+            .onAppear{
+                if(favProvider.isFavEmpty()){
+                    isEmpty = true
+                } else {
+                    isEmpty = false
+                }
             }
-            
-            FavouriteScreenView()
-                .tabItem{
-                    Label("Favourite", systemImage: "heart.fill")
-                }
-
-            DetailProfile()
-                .tabItem{
-                    Label("Profile", systemImage: "person.crop.circle.fill")
-                }
+            .padding(.top, 5)
         }
     }
 }
 
-struct HomeScreenView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeScreenView()
-    }
-}

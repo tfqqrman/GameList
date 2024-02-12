@@ -26,12 +26,11 @@ class NetworkService {
         }
         
         let decoder = JSONDecoder()
-        let result = try decoder.decode(GameResponses.self, from: data) //this should be the response
+        let result = try decoder.decode(GameResponses.self, from: data)
         return gameMapper(input: result.results)
     }
     
     func getDetailGameInfo(_ id:Int) async throws -> DetailGame{
-        //TODO: getting the detail game information from existing API
         var components = URLComponents(string: "https://api.rawg.io/api/games/\(id)?")!
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey)
@@ -51,12 +50,18 @@ class NetworkService {
         let pub = result.publishers.map{ x in
             return x.name
         }
-        print("result detail: \(pub.first ?? "")")
         
         return DetailGame(description: formattedDescription!,
                           originalName: result.originalName,
                           playtime: result.playtime,
-                          publisherName: pub.first ?? "[FAILED TO LOAD]")
+                          publisherName: pub.first ?? "[FAILED TO LOAD]",
+                          id: result.id,
+                          name: result.name,
+                          released: result.released,
+                          backgroundImage: result.backgroundImage,
+                          rating: result.rating
+                          
+        )
         
     }
     

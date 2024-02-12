@@ -6,25 +6,44 @@
 //
 
 import SwiftUI
-
 struct GameList: View {
     @State var game: [Game] = []
+    @State var gameFav: [FavModel] = []
+    @State private var showToast = false
+    var isHomeScreen: Bool
+    private let favProvider: FavProvider = {return FavProvider()}()
     var body: some View {
-        List($game){game in
-            NavigationLink{
-                GameDetailView(game: game)
-            } label: {
-                GameRow(game: game)
+        if(isHomeScreen){
+            List($game){game in
+                NavigationLink{
+                    GameDetailView(id: game.id)
+                } label: {
+                    GameRow(game: game)
+                }
             }
-        }
-        .frame(maxWidth: .infinity)
-        .listStyle(GroupedListStyle())
-        .onAppear{
-            Task{
-                await getGames()
+            .frame(maxWidth: .infinity)
+            .listStyle(GroupedListStyle())
+            .onAppear{
+                Task{
+                    await getGames()
+                }
+            }
+        } else {
+            List($gameFav){game in
+                NavigationLink{
+                    GameDetailView(id: Int(game.id ?? 0))
+                } label: {
+                    FavGameRow(game: game)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .listStyle(GroupedListStyle())
+            .onAppear{
+                getFavGame()
             }
         }
     }
+    
     
     func getGames() async{
         let network = NetworkService()
@@ -34,10 +53,10 @@ struct GameList: View {
               fatalError("Error: connection failed.")
             }
     }
-}
-
-struct GameList_Previews: PreviewProvider {
-    static var previews: some View {
-        GameList()
+    
+    private func getFavGame(){
+        favProvider.getAllFavGame(){game in
+            gameFav = game
+        }
     }
 }

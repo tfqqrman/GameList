@@ -17,17 +17,34 @@ class DetailGame:Identifiable{
     let originalName:String
     let playTime:Int
     let publisherName:String
-    //TODO: ADD PUBLISHER
+    let id: Int
+    let name: String
+    let released: Date
+    let backgroundImage: URL
+    
+    var img: UIImage?
+    let rating: Double
     
     init(description:String,
          originalName:String,
          playtime:Int,
-         publisherName:String
+         publisherName:String,
+         id: Int,
+         name: String,
+         released: Date,
+         backgroundImage: URL,
+         rating: Double
+         
          ) {
         self.description = description
         self.originalName = originalName
         self.playTime = playtime
         self.publisherName = publisherName
+        self.id = id
+        self.name = name
+        self.released = released
+        self.backgroundImage = backgroundImage
+        self.rating = rating
     }
 }
 
@@ -62,8 +79,8 @@ struct GameResponses: Codable{
 
 struct GameResult:Codable{
     let id:Int
-    let name:String //judul
-    let released:Date //tanggal release
+    let name:String 
+    let released:Date
     let rating:Double
     let background_image: URL
     
@@ -98,12 +115,22 @@ struct DetailResponse: Codable{
     let originalName:String
     let playtime:Int
     let publishers:[PublisherResult]
+    let id: Int
+    let name: String
+    let released: Date
+    let backgroundImage: URL
+    let rating: Double
     
     enum CodingKeys: String, CodingKey {
         case description
         case originalName = "name_original"
         case playtime
         case publishers
+        case id
+        case name
+        case released
+        case backgroundImage = "background_image"
+        case rating
     }
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -112,6 +139,16 @@ struct DetailResponse: Codable{
         originalName = try container.decode(String.self, forKey: .originalName)
         playtime = try container.decode(Int.self, forKey: .playtime)
         publishers = try container.decode([PublisherResult].self, forKey: .publishers)
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        let dateReleased = try container.decode(String.self, forKey: .released)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        released = formatter.date(from: dateReleased)!
+        
+        let imagePath = try container.decode(String.self, forKey: .backgroundImage)
+        backgroundImage = URL(string: imagePath)!
+        rating = try container.decode(Double.self, forKey: .rating)
     }
     
 }

@@ -15,7 +15,6 @@ struct SplashScreenView: View {
         }else{
             VStack{
                 VStack{
-                    //this should be image but rn I will fill it with the text instead
                     Image("logo-splash")
                         .padding(4.0)
                     Text("GameList")
