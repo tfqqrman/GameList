@@ -10,9 +10,10 @@ import Foundation
 class NetworkService {
     let apiKey = "002b705bebc5484aa0867a3d6e6623a7"
     let pageSize = "10"
+    let baseUrl = "https://api.rawg.io/api/"
     
     func getGame() async throws -> [Game] {
-        var components = URLComponents(string: "https://api.rawg.io/api/games?")!
+        var components = URLComponents(string: "\(baseUrl)games?")!
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey),
             URLQueryItem(name: "page_size", value: pageSize)
@@ -31,7 +32,7 @@ class NetworkService {
     }
     
     func getDetailGameInfo(_ id:Int) async throws -> DetailGame{
-        var components = URLComponents(string: "https://api.rawg.io/api/games/\(id)?")!
+        var components = URLComponents(string: "\(baseUrl)games/\(id)?")!
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey)
         ]

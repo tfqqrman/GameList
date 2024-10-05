@@ -11,7 +11,16 @@ struct GameList: View {
     @State var gameFav: [FavModel] = []
     @State private var showToast = false
     var isHomeScreen: Bool
+    private let remoteDataSource = RemoteDataSource()
     private let favProvider: FavProvider = {return FavProvider()}()
+    private let localDataProvider: LocalDataProvider = {return LocalDataProvider()}()
+    private let gameRepo:GameRepository
+    
+    init(isHomeScreen: Bool) {
+            self.isHomeScreen = isHomeScreen
+            self.gameRepo = GameRepository.sharedInstance(remoteDataSource, localDataProvider)
+        }
+    
     var body: some View {
         if(isHomeScreen){
             List($game){game in
@@ -46,12 +55,19 @@ struct GameList: View {
     
     
     func getGames() async{
-        let network = NetworkService()
-        do {
-              game = try await network.getGame()
-            } catch {
-              fatalError("Error: connection failed.")
+        gameRepo.getGame { game in
+            switch game{
+            case .success(let gameModel):
+                self.game = gameModel.map({ gameListResult in
+                    Game(id: gameListResult.id,
+                         name: gameListResult.name,
+                         released: gameListResult.released,
+                         rating: gameListResult.rating,
+                         background_image: gameListResult.background_image)
+                })
+            case .failure(_): break
             }
+        }
     }
     
     private func getFavGame(){
