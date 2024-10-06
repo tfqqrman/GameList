@@ -8,6 +8,7 @@
 import Foundation
 
 final class Injection{
+    ///Profile DI
     private func provideDataSource() -> ProfileDataSourceProtocol {
         return ProfileDataSource()
     }
@@ -20,5 +21,18 @@ final class Injection{
     func provideUseCase() -> ProfileUseCase {
         let profileRepository = provideRepo()
         return ProfileInteractor(profileRepository: profileRepository)
+    }
+    
+    /// Home DI
+    private func provideHomeRepo() -> GameRepositoryProtocol{
+        let remote: RemoteDataSource = RemoteDataSource.sharedInstance
+        let local: LocalDataProvider = {return LocalDataProvider()}()
+        
+        return GameRepository.sharedInstance(remote, local)
+    }
+    
+    func provideHomeUseCase() -> HomeUseCase {
+        let homeRepo = provideHomeRepo()
+        return HomeInteractor(homeRepo: homeRepo)
     }
 }

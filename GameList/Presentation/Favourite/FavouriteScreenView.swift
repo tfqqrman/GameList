@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FavouriteScreenView: View {
     private let favProvider: FavProvider = {return FavProvider()}()
+    private let homePresetnter = HomePresenter(homeUseCase: Injection.init().provideHomeUseCase())
     @State var isEmpty: Bool = true
     @State var gameFav: [FavModel] = []
     @State var game: [Game] = []
@@ -19,7 +20,7 @@ struct FavouriteScreenView: View {
                 if(isEmpty){
                     Text("You have not choose your favourite game yet")
                 } else {
-                    GameList(isHomeScreen: false)
+                    GameList(isHomeScreen: false, presenter: homePresetnter)
                         .padding(.top, 50.0)
                         .overlay(
                             ZStack{

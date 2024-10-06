@@ -9,11 +9,12 @@ import SwiftUI
 
 struct HomeScreenView: View {
     @State private var game: [Game] = []
+    private let homePresetnter = HomePresenter(homeUseCase: Injection.init().provideHomeUseCase())
     var body: some View {
         TabView{
             NavigationView{
                 VStack{
-                    GameList(isHomeScreen: true)
+                    GameList(isHomeScreen: true, presenter: homePresetnter)
                         .padding(.top, 50.0)
                         .overlay(
                             ZStack{

@@ -11,15 +11,14 @@ struct GameList: View {
     @State var gameFav: [FavModel] = []
     @State private var showToast = false
     var isHomeScreen: Bool
-    private let remoteDataSource = RemoteDataSource()
+    var presenter:HomePresenter
     private let favProvider: FavProvider = {return FavProvider()}()
-    private let localDataProvider: LocalDataProvider = {return LocalDataProvider()}()
-    private let gameRepo:GameRepository
     
-    init(isHomeScreen: Bool) {
-            self.isHomeScreen = isHomeScreen
-            self.gameRepo = GameRepository.sharedInstance(remoteDataSource, localDataProvider)
-        }
+    init(isHomeScreen: Bool, presenter:HomePresenter) {
+        self.isHomeScreen = isHomeScreen
+        self.presenter = presenter
+        self.game = presenter.getHomeData()
+    }
     
     var body: some View {
         if(isHomeScreen){
@@ -33,9 +32,7 @@ struct GameList: View {
             .frame(maxWidth: .infinity)
             .listStyle(GroupedListStyle())
             .onAppear{
-                Task{
-                    await getGames()
-                }
+                self.game = presenter.getHomeData()
             }
         } else {
             List($gameFav){game in
@@ -53,23 +50,7 @@ struct GameList: View {
         }
     }
     
-    
-    func getGames() async{
-        gameRepo.getGame { game in
-            switch game{
-            case .success(let gameModel):
-                self.game = gameModel.map({ gameListResult in
-                    Game(id: gameListResult.id,
-                         name: gameListResult.name,
-                         released: gameListResult.released,
-                         rating: gameListResult.rating,
-                         background_image: gameListResult.background_image)
-                })
-            case .failure(_): break
-            }
-        }
-    }
-    
+    //The place should not be here
     private func getFavGame(){
         favProvider.getAllFavGame(){game in
             gameFav = game
