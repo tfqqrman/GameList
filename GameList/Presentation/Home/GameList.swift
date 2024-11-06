@@ -11,18 +11,17 @@ struct GameList: View {
     @State var gameFav: [FavModel] = []
     @State private var showToast = false
     var isHomeScreen: Bool
-    var presenter:HomePresenter
+    @ObservedObject var presenter:HomePresenter
     private let favProvider: FavProvider = {return FavProvider()}()
     
     init(isHomeScreen: Bool, presenter:HomePresenter) {
         self.isHomeScreen = isHomeScreen
         self.presenter = presenter
-        self.game = presenter.getHomeData()
     }
     
     var body: some View {
         if(isHomeScreen){
-            List($game){game in
+            List(self.presenter.game){game in
                 NavigationLink{
                     GameDetailView(id: game.id)
                 } label: {
@@ -32,7 +31,9 @@ struct GameList: View {
             .frame(maxWidth: .infinity)
             .listStyle(GroupedListStyle())
             .onAppear{
-                self.game = presenter.getHomeData()
+                if(self.game.count == 0){
+                    presenter.getHomeData()
+                }
             }
         } else {
             List($gameFav){game in
