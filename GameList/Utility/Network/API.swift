@@ -20,12 +20,15 @@ protocol Endpoint {
 }
 
 enum Endpoints: Endpoint {
-    case games
+    case games, detail
     
     var url: String {
         switch self {
         case .games:
             return "\(API.baseUrl)games?"
+            
+        case .detail:
+            return "\(API.baseUrl)games/"
         }
     }
     
@@ -33,6 +36,8 @@ enum Endpoints: Endpoint {
         switch self {
         case .games:
             return ["key":"\(API.apiKey)", "page_size":"\(API.pageSize)"]
+        case .detail:
+            return ["key":"\(API.apiKey)"]
         }
     }
 }

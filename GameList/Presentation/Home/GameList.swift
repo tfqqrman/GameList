@@ -51,7 +51,7 @@ struct GameList: View {
         }
     }
     
-    //The place should not be here
+    //TODO: 
     private func getFavGame(){
         favProvider.getAllFavGame(){game in
             gameFav = game

@@ -35,4 +35,9 @@ final class Injection{
         let homeRepo = provideHomeRepo()
         return HomeInteractor(homeRepo: homeRepo)
     }
+    
+    func provideDetailUseCase() -> DetailUseCase {
+        let homeRepo = provideHomeRepo()
+        return DetailInteractorImpl(detailRepository: homeRepo)
+    }
 }

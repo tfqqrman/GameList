@@ -34,4 +34,20 @@ extension RemoteDataSource: RemoteDataSourceProtocol {
             }
         }
     }
+    
+    func getDetailOfGame(id: Int, result: @escaping (Result<DetailResponse, URLError>) -> Void) {
+        guard let url = URL(string: Endpoints.detail.url + "\(id)") else {return}
+        let param = Endpoints.games.parameters
+        
+        AF.request(url, parameters: param)
+            .validate()
+            .responseDecodable(of: DetailResponse.self){response in
+                switch response.result{
+                    case .success(let value):
+                    result(.success(value))
+                case .failure:
+                    break
+                }
+            }
+    }
 }

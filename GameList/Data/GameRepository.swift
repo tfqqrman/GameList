@@ -9,6 +9,7 @@ import Foundation
 
 protocol GameRepositoryProtocol {
     func getGame(result: @escaping(Result<[GameListResult], Error>) -> Void)
+    func getDetails(id: Int, result: @escaping(Result<DetailResponse, Error>) -> Void)
 }
 
 final class GameRepository:NSObject{
@@ -67,6 +68,17 @@ extension GameRepository:GameRepositoryProtocol{
                 
                 result(.success(gameListResults))
                 
+            }
+        }
+    }
+    
+    func getDetails(id: Int, result: @escaping (Result<DetailResponse, any Error>) -> Void) {
+        remote.getDetailOfGame(id: id) { detailResponse in
+            switch detailResponse {
+                case .success(let detail):
+                result(.success(detail))
+            case .failure(let error):
+                result(.failure(error))
             }
         }
     }
