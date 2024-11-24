@@ -11,10 +11,17 @@ struct GameList: View {
     @State var gameFav: [FavModel] = []
     @State private var showToast = false
     var isHomeScreen: Bool
+    @ObservedObject var presenter:HomePresenter
     private let favProvider: FavProvider = {return FavProvider()}()
+    
+    init(isHomeScreen: Bool, presenter:HomePresenter) {
+        self.isHomeScreen = isHomeScreen
+        self.presenter = presenter
+    }
+    
     var body: some View {
         if(isHomeScreen){
-            List($game){game in
+            List(self.presenter.game){game in
                 NavigationLink{
                     GameDetailView(id: game.id)
                 } label: {
@@ -24,8 +31,8 @@ struct GameList: View {
             .frame(maxWidth: .infinity)
             .listStyle(GroupedListStyle())
             .onAppear{
-                Task{
-                    await getGames()
+                if(self.game.count == 0){
+                    presenter.getHomeData()
                 }
             }
         } else {
@@ -44,16 +51,7 @@ struct GameList: View {
         }
     }
     
-    
-    func getGames() async{
-        let network = NetworkService()
-        do {
-              game = try await network.getGame()
-            } catch {
-              fatalError("Error: connection failed.")
-            }
-    }
-    
+    //TODO: 
     private func getFavGame(){
         favProvider.getAllFavGame(){game in
             gameFav = game

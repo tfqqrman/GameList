@@ -15,12 +15,14 @@ struct GameDetailView: View {
     @State private var isLiked: Bool = false
     @State private var likeColor: Color = .gray
     @State private var likeString: String = "Like"
+    
+    @ObservedObject private var detailPresenter = DetailPresenter(detailUseCase: Injection.init().provideDetailUseCase())
 
     private let favProvider: FavProvider = {return FavProvider()}()
     
     var body: some View {
         VStack{
-            if let det = detailGame{
+            if let det = detailPresenter.detail{
                 Text(det.originalName)
                     .multilineTextAlignment(.center)
                     .padding(.top, 20)
@@ -103,30 +105,7 @@ struct GameDetailView: View {
                 likeColor = isLiked ? .red : .gray
                 likeString = isLiked ? "Liked" : "Like"
             }
-            Task{
-                await getDetail(id:self.id)
-            }
-        }
-    }
-    
-    func getImage(game:DetailGame) async{
-        let imageDownloader = ImageDownloader()
-        var imageResult:UIImage
-        do{
-            imageResult = try await imageDownloader.downloadImage(url: game.backgroundImage)
-            game.img = imageResult
-            loadedImage = imageResult
-        } catch {
-            fatalError("Error: failed to download image")
-        }
-    }
-    
-    func getDetail(id:Int) async{
-        let gameDetail = NetworkService()
-        do {
-            self.detailGame = try await gameDetail.getDetailGameInfo(id)
-        } catch {
-              fatalError("Error: connection failed.")
+            detailPresenter.getDetails(id: self.id)
         }
     }
     
@@ -138,7 +117,17 @@ struct GameDetailView: View {
         let image = gameFav.backgroundImage
         favProvider.saveGameToFav(id, title, releaseDate, rate, image) {}
     }
-    
+    private func getImage(game:DetailGame) async{
+        let imageDownloader = ImageDownloader()
+        var imageResult:UIImage
+        do{
+            imageResult = try await imageDownloader.downloadImage(url: game.backgroundImage)
+            game.img = imageResult
+            loadedImage = imageResult
+        } catch {
+            fatalError("Error: failed to download image")
+        }
+    }
     private func deleteGameFromFav(id: Int){
         favProvider.deleteFavGame(id){}
     }

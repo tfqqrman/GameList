@@ -72,6 +72,14 @@ class Game:Identifiable{
     }
 }
 
+struct GameModel:Equatable, Identifiable{
+    let id:Int32?
+    let name:String?
+    let released:Date?
+    let rating:Double?
+    let background_image: URL?
+}
+
 struct GameResponses: Codable{
     let seo_title:String
     let results:[GameResult]

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GameRow: View {
-    @Binding var game:Game
+    var game:Game
     @State private var isLoading: Bool = true
     @State private var loadedImage:UIImage?
     
