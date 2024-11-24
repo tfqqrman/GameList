@@ -16,6 +16,8 @@
 		156A399D2B6F72F5000D61BF /* GameFavouriteData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156A399B2B6F72F5000D61BF /* GameFavouriteData.xcdatamodeld */; };
 		156A399F2B6F8C3B000D61BF /* FavProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A399E2B6F8C3B000D61BF /* FavProvider.swift */; };
 		156A39A12B6F962B000D61BF /* FavModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156A39A02B6F962B000D61BF /* FavModel.swift */; };
+		15713F9B2CF2FE4F007D0496 /* LocalGameData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 158606342CA2F4F000659E8F /* LocalGameData.xcdatamodeld */; };
+		15713F9C2CF2FE56007D0496 /* GameFavouriteData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156A399B2B6F72F5000D61BF /* GameFavouriteData.xcdatamodeld */; };
 		158606362CA2F4F000659E8F /* LocalGameData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 158606342CA2F4F000659E8F /* LocalGameData.xcdatamodeld */; };
 		158606382CA2F5C000659E8F /* LocalDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158606372CA2F5C000659E8F /* LocalDataProvider.swift */; };
 		158B48302B1CB8E500A39FD7 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158B482F2B1CB8E500A39FD7 /* ImageDownloader.swift */; };
@@ -469,6 +471,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15713F9B2CF2FE4F007D0496 /* LocalGameData.xcdatamodeld in Sources */,
+				15713F9C2CF2FE56007D0496 /* GameFavouriteData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
