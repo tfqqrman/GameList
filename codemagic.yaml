@@ -12,7 +12,7 @@ workflows:
         script: |
           xcodebuild \
           -project "$XCODE_PROJECT" \
-          -scheme "$XCODE_SCHEME" \ 
+          -scheme "$XCODE_SCHEME" \
           -sdk iphonesimulator \
           -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.1' \
           clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
